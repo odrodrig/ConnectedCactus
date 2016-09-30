@@ -20,6 +20,7 @@ const char* password = "";
 
 int sensorPin = A0; 
 int sensorValue = 0;
+float percentMoisture = 0;
 
 //The following variables come from the Watson Iot Platform after you register your device 
 #define ORG ""
@@ -74,6 +75,7 @@ void loop() {
   digitalWrite(5, HIGH);
   delay(500);
   sensorValue = analogRead(sensorPin);
+  percentMoisture = map(sensorValue, 8, 710, 0, 100);
   digitalWrite(5, LOW); 
  
 }
@@ -98,6 +100,8 @@ void iotfPublish() {
  payload += DEVICE_ID;
  payload += "\",\"moisture\": \"";
  payload += sensorValue;
+ payload += "\",\"percent\": \"";
+ payload += percentMoisture;
  payload += "\"}}";
 
  Serial.print("Sending payload: ");
